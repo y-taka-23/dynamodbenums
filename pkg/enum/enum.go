@@ -1,7 +1,7 @@
 package enum
 
 type Enum struct {
-	packageName string
-	typeName    string
-	values      []string
+	PackageName string
+	TypeName    string
+	Values      []string
 }
