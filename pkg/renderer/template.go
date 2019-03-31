@@ -12,17 +12,29 @@ import (
 )
 
 var (
-	_{{ .TypeName }}AttributeToValue = map[string]{{ .TypeName }}{
+	_{{ .TypeName }}Values = []{{ .TypeName }}{
 
-		{{ range .Values }}"{{ .  }}": {{ . }},
+		{{ range .Values }}{{ . }},
 		{{ end }}
 	}
-	_{{ .TypeName }}ValueToAttribute = map[{{ .TypeName }}]string{
 
-		{{ range .Values }}{{ . }}: "{{ . }}",
+	_{{ .TypeName }}Attributes = []string{
+
+		{{ range .Values }}"{{ . }}",
 		{{ end }}
 	}
+
+	_{{ .TypeName }}ValueToAttribute = map[{{ .TypeName }}]string{}
+	_{{ .TypeName }}AttributeToValue = map[string]{{ .TypeName }}{}
 )
+
+func init() {
+	for i, val := range _{{ .TypeName }}Values {
+		attr := _{{ .TypeName }}Attributes[i]
+		_{{ .TypeName }}ValueToAttribute[val] = attr
+		_{{ .TypeName }}AttributeToValue[attr] = val
+	}
+}
 
 func (r {{ .TypeName }}) MarshalDynamoDBAttributeValue(av *dynamodb.AttributeValue) error {
 	n, ok := _{{ .TypeName }}ValueToAttribute[r]
