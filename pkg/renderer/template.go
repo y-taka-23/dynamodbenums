@@ -29,8 +29,16 @@ var (
 )
 
 func init() {
+
 	for i, val := range _{{ .TypeName }}Values {
-		attr := _{{ .TypeName }}Attributes[i]
+
+		var attr string
+		if s, ok := interface{}(val).(fmt.Stringer); ok {
+			attr = s.String()
+		} else {
+			attr = _{{ .TypeName }}Attributes[i]
+		}
+
 		_{{ .TypeName }}ValueToAttribute[val] = attr
 		_{{ .TypeName }}AttributeToValue[attr] = val
 	}
