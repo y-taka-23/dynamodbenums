@@ -12,13 +12,13 @@ For the specified name of a type defined as constants, dynamodbenums generates a
 
 ```go
 type Marshaler interface {
-    MarshalDynamoDBAttributeValue(*dynamodb.AttributeValue) error
+	MarshalDynamoDBAttributeValue(*dynamodb.AttributeValue) error
 }
 ```
 
 ```go
 type Unmarshaler interface {
-    UnmarshalDynamoDBAttributeValue(*dynamodb.AttributeValue) error
+	UnmarshalDynamoDBAttributeValue(*dynamodb.AttributeValue) error
 }
 ```
 
@@ -64,9 +64,9 @@ const (
 )
 
 type Prescription struct {
-  ID       string
-  Name     Pill
-  Quantity int
+	ID       string
+	Name     Pill
+	Quantity int
 }
 ```
 
@@ -76,23 +76,23 @@ And the `main.go` has marshaling procedure for the data types.
 package main
 
 import (
-  "fmt"
+	"fmt"
+
+	"github.com/user/repo/painkiller"
   
-  "github.com/user/repo/painkiller"
-  
-  "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
+	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
 func main() {
 
-  p := painkiller.Prescription{
-    ID:       "PRE-0001",
-    Name:     painkiller.Aspirin,
-    Quantity: 42,
-  }
-  
-  item, _ := dynamodbattribute.MarshalMap(p)
-  fmt.Println(item)
+	p := painkiller.Prescription{
+		ID:       "PRE-0001",
+		Name:     painkiller.Aspirin,
+		Quantity: 42,
+	}
+
+	item, _ := dynamodbattribute.MarshalMap(p)
+	fmt.Println(item)
 }
 ```
 
